@@ -1,0 +1,6 @@
+{
+    "scripts": {
+        "frontend": "cd app && npx vite",
+        "init:frontend": "cd app && pnpm install"
+    }
+}
