@@ -129,7 +129,7 @@ function Navbar() {
                     >
                         {pages.map((page, index) => (
                             <Button
-                                key={page}
+                                key={index}
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: "white", display: "block" }}
                             >
