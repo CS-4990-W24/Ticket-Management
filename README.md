@@ -11,4 +11,7 @@
 4. Exit the process by pressing `Ctrl + C` multiple times until the process exits
 
 ## Backend
-1. 
+1. Install the Backend dependencies with `npm run init:backend`
+2. Run the Backend with `npm run backend`
+3. The Backend will be available at `http://localhost:3000`
+4. Exit the process by pressing `Ctrl + C` multiple times until the process exits
