@@ -4,5 +4,9 @@
         "init:frontend": "cd app && npm install",
         "init:backend": "cd backend && npm install",
         "backend": "cd backend && npm run dev"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "mysql2": "^3.7.0"
     }
 }
