@@ -18,7 +18,7 @@ function App() {
                     <Route path="/admin" element={<Admin />} />
                     <Route path="/checkout" element={<Checkout />} />
                 </Routes>
-                <footer><Footer /></footer>
+                <Footer />
             </BrowserRouter>
         </AuthenticationProvider>
     );
