@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Home from "./pages/Home.jsx";
 import UploadTicket from "./pages/UploadTicket";
 import Admin from "./pages/Admin";
@@ -17,6 +18,7 @@ function App() {
                     <Route path="/admin" element={<Admin />} />
                     <Route path="/checkout" element={<Checkout />} />
                 </Routes>
+                <footer><Footer /></footer>
             </BrowserRouter>
         </AuthenticationProvider>
     );
