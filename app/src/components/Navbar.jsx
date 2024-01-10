@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "@/styles/navbar.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -22,11 +22,12 @@ const pages = [
     <NavLink to="/admin"> Admin</NavLink>,
     <NavLink to="/checkout"> Checkout</NavLink>
 ];
-const settings = ["Account", "Logout"];
+const settings = ["Account", "Logout", "Create Account"];
 
 function Navbar() {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
+    const navigate = useNavigate();
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -42,6 +43,15 @@ function Navbar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const handleSettingsClick = (settings) => {
+        handleCloseUserMenu();
+
+        if (settings === "Create Account") {
+            navigate("/Createaccount.jsx");
+        }
+
+    }
 
     return (
         <AppBar position="static">
@@ -169,7 +179,7 @@ function Navbar() {
                             {settings.map((setting) => (
                                 <MenuItem
                                     key={setting}
-                                    onClick={handleCloseUserMenu}
+                                    onClick={() => handleSettingsClick(setting)}
                                 >
                                     <Typography textAlign="center">
                                         {setting}

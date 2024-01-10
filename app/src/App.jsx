@@ -6,6 +6,7 @@ import UploadTicket from "./pages/UploadTicket";
 import Admin from "./pages/Admin";
 import Checkout from "./pages/Checkout";
 import { AuthenticationProvider } from "./components/AuthenticationContext";
+import CreateAccount from "./pages/Createaccount";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                     <Route path="/upload" element={<UploadTicket />} />
                     <Route path="/admin" element={<Admin />} />
                     <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/createaccount" element={<CreateAccount />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>
