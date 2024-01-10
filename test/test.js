@@ -1,7 +1,7 @@
 const userModel = require('../backend/userModel');
 
 const testCreateUser = async () => {
-    const userData = { email: "secondtest", password: "123456", userRole: "user" };
+    const userData = { Email: "secondtest", Password: "654321", UserRole: "user" };
 
     try {
         const result = await new Promise((resolve, reject) => {
