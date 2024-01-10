@@ -1,4 +1,4 @@
-const connection = require('./database');
+const connection = require('../database');
 
 const checkEmailExists = (email, callback) => {
     const sql = 'SELECT * FROM Users WHERE Email = ?';
