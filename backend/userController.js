@@ -1,16 +1,27 @@
-const userModel = require('./userModel');
+const userModel = require("./userModel");
 
 const createUserController = (req, res) => {
-    userModel.createUser(req.body, (error, results) => {
+    userModel.checkEmailExists(req.body.Email, (error, results) => {
         if (error) {
-            console.error('Error:', error);
-            if (error.message === 'Email already exists') {
-                return res.status(409).send({ message: error.message }); // 409 Conflict
-            }
-            return res.status(500).send({ message: 'Internal Server Error' });
+            console.error("Error in checking email:", error);
+            return res.status(500).send({ message: "Internal Server Error" });
         }
-        console.log('User created:', results);
-        res.status(201).send({ message: `User created with ID: ${results.insertId}` });
+        if (results.length > 0) {
+            return res.status(409).send({ message: "Email already exists" });
+        }
+
+        userModel.insertUser(req.body, (insertError, insertResults) => {
+            if (insertError) {
+                console.error("Error in creating user:", insertError);
+                return res
+                    .status(500)
+                    .send({ message: "Internal Server Error" });
+            }
+            console.log("User created:", insertResults);
+            res.status(201).send({
+                message: `User created with ID: ${insertResults.insertId}`,
+            });
+        });
     });
 };
 
