@@ -16,14 +16,9 @@ function Home() {
             .catch((error) => console.error("Error fetching tickets:", error));
     }, []);
 
-    const handleAddToCart = (ticketId) => {
-        console.log("Adding ticket to cart:", ticketId);
-        navigate("/cart");
-    };
-
-    const handleCheckout = () => {
-        console.log("Checking out");
-        navigate("/Checkout");
+    const handleCheckout = (ticket) => {
+        console.log("Checking out", ticket);
+        navigate("/Checkout", { state: { selectedTicket: ticket } });
     };
 
     return (
@@ -33,8 +28,7 @@ function Home() {
                 <Ticket
                     key={ticket.TicketId}
                     ticket={ticket}
-                    onAddToCart={handleAddToCart}
-                    onCheckout={handleCheckout}
+                    onCheckout={() => handleCheckout(ticket)}
                 />
             ))}
         </section>
