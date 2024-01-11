@@ -4,5 +4,10 @@
         "init:frontend": "cd app && npm install",
         "init:backend": "cd backend && npm install",
         "backend": "cd backend && npm run dev"
+    },
+    "dependencies": {
+        "@vitejs/plugin-react": "^4.2.1",
+        "cors": "^2.8.5",
+        "mysql2": "^3.7.0"
     }
 }

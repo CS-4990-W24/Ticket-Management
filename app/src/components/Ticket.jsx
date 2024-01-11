@@ -1,7 +1,9 @@
-function Ticket() {
+function Ticket({ ticket }) {
     return (
-        <div>
-            <h1>This is a sample ticket that I made</h1>
+        <div className="ticket">
+            <h2>Ticket ID: {ticket.TicketId}</h2>
+            <p>Price: {ticket.Price}</p>
+            <p>Seat: {ticket.Seat}</p>
         </div>
     );
 }
