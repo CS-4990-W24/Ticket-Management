@@ -22,23 +22,28 @@ const usersData = [
     createUserData(13, "oreo@example.com"),
 ];
 
-function createTicketData(id) {
-    const statuses = ['Open', 'Closed', 'In Progress', 'Resolved'];
-    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-
+function createTicketData(TicketId, Price, Seat, Status) {
     return {
-        id,
-        ticketInfo: `Ticket Info ${Math.floor(Math.random() * 1000)}`,
-        status: randomStatus
+        TicketId,
+        Price,
+        Seat,
+        Status,
     };
 }
+const statuses = ['Open', 'Closed', 'In Progress', 'Resolved'];
+const seats = ['A1', 'B2', 'C3', 'D4', 'E5', 'F6', 'G7', 'H8', 'I9', 'J10'];
 
-const ticketsData = Array.from({length: 13}, (_, i) => createTicketData(i + 1));
+const ticketsData = Array.from({length: 15}, (_, i) => createTicketData(
+    i + 1,
+    Math.floor(Math.random() * 100) + 50, // Price between 50 and 150
+    seats[Math.floor(Math.random() * seats.length)], // Random seat from the seats array
+    statuses[Math.floor(Math.random() * statuses.length)] // Random status from the statuses array
+));
 
 function Admin() {
     return (
         <section>
-            <h1>Admin Page</h1>
+            <h1>Database Management</h1>
             <DataTable data={usersData} tableName="Users"/>
             <br />
             <DataTable data={ticketsData} tableName="Tickets"/>
