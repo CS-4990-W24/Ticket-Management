@@ -19,30 +19,6 @@ import {
     TablePagination,
 } from "@mui/material";
 
-function createData(id, name, calories) {
-    return {
-        id,
-        name,
-        calories,
-    };
-}
-
-const rows = [
-    createData(1, "Cupcake", 305),
-    createData(2, "Donut", 452),
-    createData(3, "Eclair", 262),
-    createData(4, "Frozen yoghurt", 159),
-    createData(5, "Gingerbread", 356),
-    createData(6, "Honeycomb", 408),
-    createData(7, "Ice cream sandwich", 237),
-    createData(8, "Jelly Bean", 375),
-    createData(9, "KitKat", 518),
-    createData(10, "Lollipop", 392),
-    createData(11, "Marshmallow"),
-    createData(12, "Nougat", 360),
-    createData(13, "Oreo", 437),
-];
-
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -75,17 +51,6 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-    {
-        id: "name",
-        label: "Email",
-    },
-    {
-        id: "calories",
-        label: "Username",
-    },
-];
-
 function EnhancedTableHead({
     onSelectAllClick,
     order,
@@ -93,6 +58,7 @@ function EnhancedTableHead({
     numSelected,
     rowCount,
     onRequestSort,
+    headerLabel,
 }) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
@@ -111,18 +77,18 @@ function EnhancedTableHead({
                         onChange={onSelectAllClick}
                     />
                 </TableCell>
-                {headCells.map((headCell, index) => (
+                {Object.keys(headerLabel).map((headCell, index) => (
                     <TableCell
-                        key={headCell.id}
+                        key={headCell}
                         padding={index == 0 ? "none" : "normal"}
-                        sortDirection={orderBy === headCell.id ? order : false}
+                        sortDirection={orderBy === headCell ? order : false}
                     >
                         <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : "asc"}
-                            onClick={createSortHandler(headCell.id)}
+                            active={orderBy === headCell}
+                            direction={orderBy === headCell ? order : "asc"}
+                            onClick={createSortHandler(headCell)}
                         >
-                            {headCell.label}
+                            {headCell}
                         </TableSortLabel>
                     </TableCell>
                 ))}
@@ -131,7 +97,7 @@ function EnhancedTableHead({
     );
 }
 
-function EnhancedTableToolbar({ numSelected, entriesSelected }) {
+function EnhancedTableToolbar({ numSelected, entriesSelected, tableName }) {
     const handleEntryDelete = () => {
         console.log("Deleted these entries");
         console.log(entriesSelected);
@@ -167,7 +133,7 @@ function EnhancedTableToolbar({ numSelected, entriesSelected }) {
                     id="tableTitle"
                     component="div"
                 >
-                    Users
+                    {tableName}
                 </Typography>
             )}
 
@@ -182,9 +148,9 @@ function EnhancedTableToolbar({ numSelected, entriesSelected }) {
     );
 }
 
-function UserTable() {
+function DataTable({tableName, data }) {
     const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState("calories");
+    const [orderBy, setOrderBy] = useState(Object.keys(data[0])[0]);
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -197,7 +163,7 @@ function UserTable() {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelected = rows.map((n) => n.id);
+            const newSelected = data.map((n) => n.id);
             setSelected(newSelected);
             return;
         }
@@ -234,13 +200,13 @@ function UserTable() {
 
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
-    // Avoid a layout jump when reaching the last page with empty rows.
+    // Avoid a layout jump when reaching the last page with empty data.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
     const visibleRows = useMemo(
         () =>
-            stableSort(rows, getComparator(order, orderBy)).slice(
+            stableSort(data, getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage
             ),
@@ -253,6 +219,7 @@ function UserTable() {
                 <EnhancedTableToolbar
                     numSelected={selected.length}
                     entriesSelected={selected}
+                    tableName={tableName}
                 />
                 <TableContainer>
                     <Table
@@ -266,7 +233,8 @@ function UserTable() {
                             orderBy={orderBy}
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
+                            rowCount={data.length}
+                            headerLabel={data[0]}
                         />
                         <TableBody>
                             {visibleRows.map((row, index) => {
@@ -295,17 +263,21 @@ function UserTable() {
                                                 }}
                                             />
                                         </TableCell>
-                                        <TableCell
-                                            component="th"
-                                            id={labelId}
-                                            scope="row"
-                                            padding="none"
-                                        >
-                                            {row.name}
-                                        </TableCell>
-                                        <TableCell>
-                                            {row.calories}
-                                        </TableCell>
+
+                                        {/* Creates row based on object's value */}
+                                        {Object.values(row).map(
+                                            (value, index) => (
+                                                <TableCell
+                                                    padding={
+                                                        index == 0
+                                                            ? "none"
+                                                            : "normal"
+                                                    }
+                                                >
+                                                    {value}
+                                                </TableCell>
+                                            )
+                                        )}
                                     </TableRow>
                                 );
                             })}
@@ -324,7 +296,7 @@ function UserTable() {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={rows.length}
+                    count={data.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
@@ -335,4 +307,4 @@ function UserTable() {
     );
 }
 
-export default UserTable;
+export default DataTable;
