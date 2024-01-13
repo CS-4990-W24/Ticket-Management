@@ -1,7 +1,15 @@
-function Ticket() {
+function Ticket({ ticket, onCheckout }) {
+
+const handleCheckout = () => {
+    onCheckout();
+};
+
     return (
-        <div>
-            <h1>This is a sample ticket that I made</h1>
+        <div className="ticket">
+            <h2>{ticket.title}</h2>
+            <p>Price: {ticket.Price}</p>
+            <p>Seat: {ticket.Seat}</p>
+            <button onClick={handleCheckout}>Checkout</button>
         </div>
     );
 }
