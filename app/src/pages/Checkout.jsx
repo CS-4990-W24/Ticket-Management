@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Box, Button, Container, Grid, IconButton, Paper, Tooltip, Typography, } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import InfoIcon from '@mui/icons-material/Info';
 
 export default function Checkout() {
+    const [tickets, setTickets] = useState([])
     const location = useLocation();
     const selectedTicket = location.state?.selectedTicket;
-    
-    console.log(selectedTicket);
 
+    useEffect(() => {
+        fetch("http://localhost:3000/api/tickets")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Success fetching tickets:", data);
+                setTickets(data);
+            })
+            .catch((error) => console.error("Error fetching tickets:", error));
+    }, []);
+
+    const handleCheckoutButton = () => {
+        alert('sup');
+    }
+    
+    // If user does not select a ticket before navigating to the checkout page
     if (!selectedTicket)
     {
         return (
@@ -27,6 +41,7 @@ export default function Checkout() {
         )
     }
 
+    // Page design for when user adds a ticket to their cart
     return (
         <>
             <Container maxWidth="md">
@@ -102,7 +117,12 @@ export default function Checkout() {
 
                     {/* Submit Ticket Button */}
                     <Box textAlign="center" paddingTop="50px">
-                        <Button variant="contained">Submit Ticket</Button>
+                        <Button
+                        variant="contained"
+                        onClick={handleCheckoutButton}
+                        >
+                            Submit Order
+                        </Button>
                     </Box>
                 </Paper>
             </Container>
