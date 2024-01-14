@@ -1,4 +1,5 @@
 import DataTable from "@/components/DataTable";
+import { useEffect, useState } from "react";
 function createUserData(id, Email) {
     return {
         id,
@@ -41,6 +42,25 @@ const ticketsData = Array.from({length: 15}, (_, i) => createTicketData(
 ));
 
 function Admin() {
+    const [userData, setUserData] = useState([]);
+    useEffect(() => {
+        const getUsers = async () => {
+            const request = await fetch("http://localhost:3000/api/users", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                },
+            });
+            const response = await request.json();
+            console.log(response);
+            setUserData(response);
+        };
+        getUsers();
+    }, []);
+
     return (
         <section>
             <h1>Database Management</h1>
