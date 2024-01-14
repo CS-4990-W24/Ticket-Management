@@ -1,28 +1,35 @@
-const userModel = require("../models/userModel");
+const { checkEmailExists, insertUser } = require("../models/userModel");
+const { checkMissingParams } = require("../utils/checkMissingParams");
 
-const createUserController = (req, res) => {
-    userModel.checkEmailExists(req.body.Email, (error, results) => {
-        if (error) {
-            console.error("Error in checking email:", error);
-            return res.status(500).send({ message: "Internal Server Error" });
-        }
-        if (results.length > 0) {
+const createUserController = async (req, res) => {
+    const requiredParams = ["Email", "Password", "UserRole"];
+    const checkParams = checkMissingParams(
+        Object.keys(req.body),
+        requiredParams
+    );
+    if (checkParams.length > 0) {
+        return res
+            .status(400)
+            .send({ message: "Missing fields: " + checkParams.join(", ") });
+    }
+
+    try {
+        const result = await checkEmailExists(req.body.Email);
+        if (result.length > 0) {
             return res.status(409).send({ message: "Email already exists" });
         }
+        const insertResult = await insertUser(req.body);
 
-        userModel.insertUser(req.body, (insertError, insertResults) => {
-            if (insertError) {
-                console.error("Error in creating user:", insertError);
-                return res
-                    .status(500)
-                    .send({ message: "Internal Server Error" });
-            }
-            console.log("User created:", insertResults);
-            res.status(201).send({
-                message: `User created with ID: ${insertResults.insertId}`,
-            });
+        console.log("User created:", insertResult);
+        res.status(201).send({
+            message: `User created with ID: ${insertResult.insertId}`,
         });
-    });
+    } catch (error) {
+        console.error("Error in creating user:", error);
+        return res
+            .status(500)
+            .send({ message: "Internal Server Error: " + error });
+    }
 };
 
 module.exports = { createUserController };

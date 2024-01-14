@@ -1,14 +1,26 @@
-const connection = require('../database');
+const connection = require("../database");
+async function execute(cmd, placeholder) {
+    const data = await new Promise((resolve, reject) =>
+        connection.execute(cmd, placeholder, (err, result) => {
+            if (err) {
+                reject(err)
+            }
+            resolve(result);
+        })
+    );
+    return data;
+}
 
-const checkEmailExists = (email, callback) => {
-    const sql = 'SELECT * FROM Users WHERE Email = ?';
-    connection.execute(sql, [email], callback);
+const checkEmailExists = async (email) => {
+    const sql = "SELECT * FROM Users WHERE Email = ?";
+    return await execute(sql, [email]);
 };
 
-const insertUser = (userData, callback) => {
-    const sql = 'INSERT INTO Users (Email, Password, UserRole) VALUES (?, ?, ?)';
+const insertUser = async (userData) => {
+    const sql =
+        "INSERT INTO Users (Email, Password, UserRole) VALUES (?, ?, ?)";
     const values = [userData.Email, userData.Password, userData.UserRole];
-    connection.execute(sql, values, callback);
+    return await execute(sql, values);
 };
 
 module.exports = { checkEmailExists, insertUser };
