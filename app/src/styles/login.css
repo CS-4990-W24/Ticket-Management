@@ -1,0 +1,14 @@
+#login {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+#header {
+    text-align: center;
+}
+
+#submit {
+    width: 50%;
+    margin: 0 auto;
+}

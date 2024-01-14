@@ -17,12 +17,12 @@ import {
 import { useState } from "react";
 
 const pages = [
-    <NavLink to="/"> Home</NavLink>,
-    <NavLink to="/upload"> Ticket Upload</NavLink>,
-    <NavLink to="/admin"> Admin</NavLink>,
-    <NavLink to="/checkout"> Checkout</NavLink>
+    <NavLink to="/" className="navbarLink"> Home</NavLink>,
+    <NavLink to="/upload" className="navbarLink"> Ticket Upload</NavLink>,
+    <NavLink to="/admin" className="navbarLink"> Admin</NavLink>,
+    <NavLink to="/checkout" className="navbarLink"> Checkout</NavLink>,
 ];
-const settings = ["Account", "Logout"];
+const settings = [<NavLink to="/login" style={{color: "black"}}> Login</NavLink>, "Logout"];
 
 function Navbar() {
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -99,6 +99,7 @@ function Navbar() {
                                 <MenuItem
                                     key={index}
                                     onClick={handleCloseNavMenu}
+                                    sx={{ backgroundColor: "black" }}
                                 >
                                     {page}
                                 </MenuItem>
