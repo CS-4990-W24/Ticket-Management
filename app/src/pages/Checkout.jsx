@@ -1,12 +1,31 @@
 import React from "react";
-import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, Grid, IconButton, Paper, Tooltip, Typography, } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import InfoIcon from '@mui/icons-material/Info';
 
-function Checkout() {
+export default function Checkout() {
     const location = useLocation();
     const selectedTicket = location.state?.selectedTicket;
-
+    
     console.log(selectedTicket);
+
+    if (!selectedTicket)
+    {
+        return (
+            <>
+                <Container maxWidth="md">
+                    <Paper variant="outlined" elevation={24} sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                        <Typography variant='h4' align="center" fontFamily='Calibri' paddingBottom="20px" gutterBottom>
+                            Checkout
+                        </Typography>
+                            <Alert severity="error">
+                            Please select a ticket before returning to this page.
+                            </Alert>
+                        </Paper>
+            </Container>
+            </>
+        )
+    }
 
     return (
         <>
@@ -22,7 +41,15 @@ function Checkout() {
                         paddingBottom="20px"
                         gutterBottom
                     >
-                        Checkout
+                        Checkout      
+                        <Tooltip
+                        title="Please note that cart details are not saved."
+                        sx={{marginLeft:1}}
+                        >
+                            <IconButton>
+                                <InfoIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Typography>
 
                     {/* Cart Details */}
@@ -66,7 +93,7 @@ function Checkout() {
                                         fontFamily="Calibri"
                                         fontSize="h6.fontSize"
                                     >
-                                        $ Price: {selectedTicket.Price}
+                                        Price: ${selectedTicket.Price}
                                     </Box>
                                 </Grid>
                             </React.Fragment>
@@ -83,4 +110,3 @@ function Checkout() {
     );
 }
 
-export default Checkout;

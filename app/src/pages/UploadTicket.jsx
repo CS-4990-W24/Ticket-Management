@@ -1,4 +1,4 @@
-import {Box, Button, Container, CssBaseline, FormControl, Grid, Input, InputAdornment, InputLabel, TextField, Typography } from '@mui/material';
+import {Box, Button, Container, FormControl, Grid, Input, InputAdornment, InputLabel, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 
 export default function UploadTicket() {
@@ -15,7 +15,6 @@ export default function UploadTicket() {
 
     return (
         <>
-            <CssBaseline />
             <Container maxWidth="md">
                 <Typography variant='h4' align="left" paddingTop="15px" fontFamily='Calibri' gutterBottom>
                     Upload Ticket Details
