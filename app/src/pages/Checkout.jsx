@@ -8,16 +8,6 @@ export default function Checkout() {
     const location = useLocation();
     const selectedTicket = location.state?.selectedTicket;
 
-    useEffect(() => {
-        fetch("http://localhost:3000/api/tickets")
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Success fetching tickets:", data);
-                setTickets(data);
-            })
-            .catch((error) => console.error("Error fetching tickets:", error));
-    }, []);
-
     const handleCheckoutButton = () => {
         alert('sup');
     }

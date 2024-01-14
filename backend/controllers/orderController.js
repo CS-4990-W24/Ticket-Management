@@ -26,7 +26,7 @@ const OrderController = {
     },
 
     deleteTicket: (req, res) => {
-        orderModelModel.deleteTicket(req.body, (deleteError, deleteResults) => {
+        OrderModel.deleteTicket(req.body, (deleteError, deleteResults) => {
             if (deleteError) {
                 console.error("Error in deleting ticket:", deleteError);
                 return res
