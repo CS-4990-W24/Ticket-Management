@@ -19,7 +19,7 @@ const checkEmailExists = async (email) => {
 const insertUser = async (userData) => {
     const sql =
         "INSERT INTO Users (Email, Password, UserRole) VALUES (?, ?, ?)";
-    const values = [userData.Email, userData.Password, userData.UserRole];
+    const values = [userData.email, userData.password, userData.userRole];
     return await execute(sql, values);
 };
 

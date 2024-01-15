@@ -23,17 +23,8 @@ function Admin() {
     const [userData, setUserData] = useState([{}]);
     useEffect(() => {
         const getUsers = async () => {
-            const request = await fetch("http://localhost:3000/api/users", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-                    "Access-Control-Allow-Headers": "Content-Type",
-                },
-            });
+            const request = await fetch("http://localhost:3000/api/users");
             const response = await request.json();
-            console.log(response);
             setUserData(response);
         };
         getUsers();

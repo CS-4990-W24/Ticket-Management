@@ -6,12 +6,9 @@ function Login() {
     const [auth, setAuth] = useState({ email: "", password: "" });
     const getUserInfo = async () => {
         const request = await fetch("http://localhost:3000/api/login", {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-                "Access-Control-Allow-Headers": "Content-Type",
             },
             body: JSON.stringify(auth),
         });

@@ -2,7 +2,7 @@ const { checkEmailExists, insertUser, getAllUsers, getUserInfo, deleteUser } = r
 const { checkMissingParams } = require("../utils/checkMissingParams");
 
 const createUserController = async (req, res) => {
-    const requiredParams = ["Email", "Password", "UserRole"];
+    const requiredParams = ["email", "password", "userRole"];
     const checkParams = checkMissingParams(
         Object.keys(req.body),
         requiredParams
@@ -14,7 +14,7 @@ const createUserController = async (req, res) => {
     }
 
     try {
-        const result = await checkEmailExists(req.body.Email);
+        const result = await checkEmailExists(req.body.email);
         if (result.length > 0) {
             return res.status(409).send({ message: "Email already exists" });
         }
@@ -45,7 +45,7 @@ const getAllUsersController = async (req, res) => {
 }
 
 const loginController = async (req, res) => {
-    const requiredParams = ["Email", "Password"];
+    const requiredParams = ["email", "password"];
     const checkParams = checkMissingParams(
         Object.keys(req.body),
         requiredParams
@@ -57,11 +57,11 @@ const loginController = async (req, res) => {
     }
 
     try {
-        const result = await getUserInfo(req.body.Email);
+        const result = await getUserInfo(req.body.email);
         if (result.length === 0) {
             return res.status(404).send({ message: "User not found" });
         }
-        if (result[0].Password !== req.body.Password) {
+        if (result[0].Password !== req.body.password) {
             return res.status(401).send({ message: "Incorrect password" });
         }
         res.status(200).send(result);

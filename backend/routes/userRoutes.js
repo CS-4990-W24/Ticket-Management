@@ -4,7 +4,7 @@ const { createUserController, getAllUsersController, loginController, deleteUser
 
 router.post("/users", createUserController);
 router.get("/users", getAllUsersController);
-router.get("/login", loginController);
+router.post("/login", loginController);
 router.delete("/users", deleteUserController);
 
 module.exports = router;
