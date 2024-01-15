@@ -5,5 +5,11 @@
         "init:backend": "cd backend && npm install",
         "backend": "cd backend && npm run dev",
         "build": "cd app && npm run build"
+    },
+    "dependencies": {
+        "@fontsource/roboto": "^5.0.8",
+        "@material-ui/core": "^4.12.4",
+        "cors": "^2.8.5",
+        "mysql2": "^3.7.0"
     }
 }
