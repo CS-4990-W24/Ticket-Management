@@ -5,7 +5,7 @@ import Auth from "@/components/Auth";
 function Login() {
     const [auth, setAuth] = useState({ email: "", password: "" });
     const getUserInfo = async () => {
-        const request = await fetch("http://localhost:3000/api/users", {
+        const request = await fetch("http://localhost:3000/api/login", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

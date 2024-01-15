@@ -3,7 +3,7 @@ async function execute(cmd, placeholder) {
     const data = await new Promise((resolve, reject) =>
         connection.execute(cmd, placeholder, (err, result) => {
             if (err) {
-                reject(err)
+                reject(err);
             }
             resolve(result);
         })
@@ -23,4 +23,19 @@ const insertUser = async (userData) => {
     return await execute(sql, values);
 };
 
-module.exports = { checkEmailExists, insertUser };
+const deleteUser = async (email) => {
+    const sql = "DELETE FROM Users WHERE Email = ?";
+    return await execute(sql, [email]);
+};
+
+const getAllUsers = async () => {
+    const sql = "SELECT * FROM Users";
+    return await execute(sql);
+};
+
+const getUserInfo = async (email) => {
+    const sql = "SELECT * FROM Users WHERE Email = ?";
+    return await execute(sql, [email]);
+};
+
+module.exports = { checkEmailExists, insertUser, getAllUsers, getUserInfo, deleteUser };

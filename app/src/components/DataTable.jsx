@@ -148,9 +148,13 @@ function EnhancedTableToolbar({ numSelected, entriesSelected, tableName }) {
     );
 }
 
-function DataTable({tableName, data }) {
+function DataTable({ tableName, data }) {
+    if (data.length == 0) {
+        return <div></div>;
+    }
+    const firstKey = Object.keys(data[0])[0];
     const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState(Object.keys(data[0])[0]);
+    const [orderBy, setOrderBy] = useState(firstKey ? firstKey :"");
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -238,19 +242,19 @@ function DataTable({tableName, data }) {
                         />
                         <TableBody>
                             {visibleRows.map((row, index) => {
-                                const isItemSelected = isSelected(row.id);
+                                const isItemSelected = isSelected(index);
                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                 return (
                                     <TableRow
                                         hover
                                         onClick={(event) =>
-                                            handleClick(event, row.id)
+                                            handleClick(event, index)
                                         }
                                         role="checkbox"
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
-                                        key={row.id}
+                                        key={index}
                                         selected={isItemSelected}
                                         sx={{ cursor: "pointer" }}
                                     >
