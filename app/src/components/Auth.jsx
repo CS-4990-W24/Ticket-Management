@@ -24,6 +24,8 @@ function Auth({ userInfo, setUserInfo, login, handleUserInfo }) {
                 id="email"
                 variant="outlined"
                 placeholder="email@cpp.edu"
+                required
+                type="email"
                 onChange={(e) =>
                     setUserInfo({ ...userInfo, email: e.target.value })
                 }
@@ -44,6 +46,7 @@ function Auth({ userInfo, setUserInfo, login, handleUserInfo }) {
                     </InputAdornment>
                 }
                 placeholder="Password"
+                required
                 onChange={(e) =>
                     setUserInfo({ ...userInfo, password: e.target.value })
                 }

@@ -1,26 +1,9 @@
 import DataTable from "@/components/DataTable";
 import { useEffect, useState } from "react";
 
-function createTicketData(TicketId, Price, Seat, Status) {
-    return {
-        TicketId,
-        Price,
-        Seat,
-        Status,
-    };
-}
-const statuses = ['Open', 'Closed', 'In Progress', 'Resolved'];
-const seats = ['A1', 'B2', 'C3', 'D4', 'E5', 'F6', 'G7', 'H8', 'I9', 'J10'];
-
-const ticketsData = Array.from({length: 15}, (_, i) => createTicketData(
-    i + 1,
-    Math.floor(Math.random() * 100) + 50, // Price between 50 and 150
-    seats[Math.floor(Math.random() * seats.length)], // Random seat from the seats array
-    statuses[Math.floor(Math.random() * statuses.length)] // Random status from the statuses array
-));
-
 function Admin() {
     const [userData, setUserData] = useState([{}]);
+    const [ticketsData, setTicketsData] = useState([{}]);
     useEffect(() => {
         const getUsers = async () => {
             const request = await fetch("http://localhost:3000/api/users");
@@ -28,6 +11,14 @@ function Admin() {
             setUserData(response);
         };
         getUsers();
+
+        const getTickets = async() => {
+            const request = await fetch("http://localhost:3000/api/tickets");
+            const response = await request.json();
+            setTicketsData(response);
+        }
+        getTickets();
+
     }, []);
 
     return (
