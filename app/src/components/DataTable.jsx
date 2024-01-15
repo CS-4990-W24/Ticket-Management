@@ -97,10 +97,16 @@ function EnhancedTableHead({
     );
 }
 
-function EnhancedTableToolbar({ numSelected, entriesSelected, tableName }) {
+function EnhancedTableToolbar({
+    numSelected,
+    entriesSelected,
+    tableName,
+    originalData,
+}) {
     const handleEntryDelete = () => {
         console.log("Deleted these entries");
-        console.log(entriesSelected);
+        const deletedEntries = entriesSelected.map(val => originalData[val]);
+        console.log(deletedEntries)
     };
 
     return (
@@ -154,8 +160,9 @@ function DataTable({ tableName, data }) {
     }
     const firstKey = Object.keys(data[0])[0];
     const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState(firstKey ? firstKey :"");
+    const [orderBy, setOrderBy] = useState(firstKey ? firstKey : "");
     const [selected, setSelected] = useState([]);
+    const [itemSelected, setItemsSelected] = useState([{}]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -220,11 +227,15 @@ function DataTable({ tableName, data }) {
     return (
         <Box sx={{ width: "100%" }}>
             <Paper sx={{ width: "100%", mb: 2 }}>
-                <EnhancedTableToolbar
-                    numSelected={selected.length}
-                    entriesSelected={selected}
-                    tableName={tableName}
-                />
+                {data && (
+                    <EnhancedTableToolbar
+                        numSelected={selected.length}
+                        entriesSelected={selected}
+                        tableName={tableName}
+                        originalData={data}
+                    />
+                )}
+
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 750 }}
