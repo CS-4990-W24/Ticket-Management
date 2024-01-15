@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from "react";
 import { Alert, Box, Button, Container, Grid, IconButton, Paper, Tooltip, Typography, } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import InfoIcon from '@mui/icons-material/Info';
+import React from "react";
 
 export default function Checkout() {
-    const [tickets, setTickets] = useState([])
     const location = useLocation();
     const selectedTicket = location.state?.selectedTicket;
+    const navigate = useNavigate();
 
-    console.log(selectedTicket)
-    const handleCheckoutButton = () => {
-        fetch('http://localhost:3000/api/tickets/' + selectedTicket.TicketId, {
-            method: 'DELETE'
-        }).then(() => {
-            alert('Deleted')
+    // Checkout button functionality
+    const handleCheckoutButton = async () => {
+        fetch('http://localhost:3000/api/tickets/' + selectedTicket.TicketId , {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json"
+            }
         })
+        alert('Thank you for your purchase!');
+        navigate('/');
     }
-    
+
     // If user does not select a ticket before navigating to the checkout page
     if (!selectedTicket)
     {

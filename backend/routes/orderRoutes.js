@@ -1,9 +1,7 @@
 const express = require('express');
-const OrderController = require('../controllers/orderController');
+const {deleteTicketController} = require('../controllers/orderController');
 const router = express.Router();
 
-router.get('/tickets', OrderController.getAllTickets);
-router.get('/tickets/:id', OrderController.getTicketById);
-router.delete('/tickets/:id', OrderController.deleteTicket);
+router.delete('/tickets/:id', deleteTicketController);
 
-module.exports = router;
+module.exports = router;    
