@@ -8,8 +8,13 @@ export default function Checkout() {
     const location = useLocation();
     const selectedTicket = location.state?.selectedTicket;
 
+    console.log(selectedTicket)
     const handleCheckoutButton = () => {
-        alert('sup');
+        fetch('http://localhost:3000/api/tickets/' + selectedTicket.TicketId, {
+            method: 'DELETE'
+        }).then(() => {
+            alert('Deleted')
+        })
     }
     
     // If user does not select a ticket before navigating to the checkout page
