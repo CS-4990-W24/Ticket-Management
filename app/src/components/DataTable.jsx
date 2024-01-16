@@ -97,10 +97,24 @@ function EnhancedTableHead({
     );
 }
 
-function EnhancedTableToolbar({ numSelected, entriesSelected, tableName }) {
-    const handleEntryDelete = () => {
-        console.log("Deleted these entries");
-        console.log(entriesSelected);
+function EnhancedTableToolbar({
+    numSelected,
+    entriesSelected,
+    tableName,
+    originalData,
+    deleteEndpoint
+}) {
+    const handleEntryDelete = async () => {
+        const deletedEntries = entriesSelected.map(val => originalData[val]);
+        console.log(deletedEntries)
+        await fetch(deleteEndpoint, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(deletedEntries[0]),
+        });
+        alert("Entries deleted successfully!")
     };
 
     return (
@@ -148,9 +162,13 @@ function EnhancedTableToolbar({ numSelected, entriesSelected, tableName }) {
     );
 }
 
-function DataTable({tableName, data }) {
+function DataTable({ tableName, data, deleteEndpoint }) {
+    if (data.length == 0) {
+        return <div></div>;
+    }
+    const firstKey = Object.keys(data[0])[0];
     const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState(Object.keys(data[0])[0]);
+    const [orderBy, setOrderBy] = useState(firstKey ? firstKey : "");
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -216,11 +234,16 @@ function DataTable({tableName, data }) {
     return (
         <Box sx={{ width: "100%" }}>
             <Paper sx={{ width: "100%", mb: 2 }}>
-                <EnhancedTableToolbar
-                    numSelected={selected.length}
-                    entriesSelected={selected}
-                    tableName={tableName}
-                />
+                {data && (
+                    <EnhancedTableToolbar
+                        numSelected={selected.length}
+                        entriesSelected={selected}
+                        tableName={tableName}
+                        originalData={data}
+                        deleteEndpoint={deleteEndpoint}
+                    />
+                )}
+
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 750 }}
@@ -238,19 +261,19 @@ function DataTable({tableName, data }) {
                         />
                         <TableBody>
                             {visibleRows.map((row, index) => {
-                                const isItemSelected = isSelected(row.id);
+                                const isItemSelected = isSelected(index);
                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                 return (
                                     <TableRow
                                         hover
                                         onClick={(event) =>
-                                            handleClick(event, row.id)
+                                            handleClick(event, index)
                                         }
                                         role="checkbox"
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
-                                        key={row.id}
+                                        key={index}
                                         selected={isItemSelected}
                                         sx={{ cursor: "pointer" }}
                                     >

@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Ticket from "@/components/Ticket";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "@/components/AuthenticationContext";
 
 function Home() {
     const [tickets, setTickets] = useState([]);
     const navigate = useNavigate();
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         fetch("http://localhost:3000/api/tickets")
@@ -14,6 +16,7 @@ function Home() {
                 setTickets(data);
             })
             .catch((error) => console.error("Error fetching tickets:", error));
+        console.log(user)
     }, []);
 
     const handleCheckout = (ticket) => {
