@@ -1,4 +1,4 @@
-const {deleteTicket} = require('../models/orderModel');
+const {deleteTicket} = require('../models/checkoutModel');
 
 const deleteTicketController = async (req, res) => {
     deleteTicket(req.params, (deleteError, deleteResults) => {
