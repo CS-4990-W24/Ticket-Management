@@ -1,10 +1,19 @@
+import { UserContext } from "@/components/AuthenticationContext";
 import DataTable from "@/components/DataTable";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Admin() {
     const [userData, setUserData] = useState([{}]);
     const [ticketsData, setTicketsData] = useState([{}]);
+    const { user } = useContext(UserContext);
+    const navigate = useNavigate();
+
     useEffect(() => {
+        if (!user.admin) {
+            navigate("/");
+        }
+
         const getUsers = async () => {
             const request = await fetch("http://localhost:3000/api/users");
             const response = await request.json();
@@ -12,21 +21,20 @@ function Admin() {
         };
         getUsers();
 
-        const getTickets = async() => {
+        const getTickets = async () => {
             const request = await fetch("http://localhost:3000/api/tickets");
             const response = await request.json();
             setTicketsData(response);
-        }
+        };
         getTickets();
-
     }, []);
 
     return (
         <section>
             <h1>Database Management</h1>
-            <DataTable data={userData} tableName="Users"/>
+            <DataTable data={userData} tableName="Users" />
             <br />
-            <DataTable data={ticketsData} tableName="Tickets"/>
+            <DataTable data={ticketsData} tableName="Tickets" />
         </section>
     );
 }
