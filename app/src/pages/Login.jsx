@@ -10,7 +10,7 @@ function Login() {
     const navigate = useNavigate();
 
     const getUserInfo = async () => {
-        const request = await fetch("http://localhost:3000/api/login", {
+        const request = await fetch("http://ec2-3-96-129-17.ca-central-1.compute.amazonaws.com/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

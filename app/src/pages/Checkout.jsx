@@ -10,7 +10,7 @@ export default function Checkout() {
 
     // Checkout button functionality
     const handleCheckoutButton = async () => {
-        fetch('http://localhost:3000/api/tickets/' + selectedTicket.TicketId , {
+        fetch('http://ec2-3-96-129-17.ca-central-1.compute.amazonaws.com/api/tickets/' + selectedTicket.TicketId , {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json"

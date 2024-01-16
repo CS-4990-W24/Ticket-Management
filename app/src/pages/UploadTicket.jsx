@@ -20,7 +20,7 @@ export default function UploadTicket() {
     const handleSubmitClick = async() => {
         const ticketDetails = {Price, Seat, Status, Title, Location, Date};
         console.log(ticketDetails.Date);
-        await fetch('http://localhost:3000/api/tickets', {
+        await fetch('http://ec2-3-96-129-17.ca-central-1.compute.amazonaws.com/api/tickets', {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(ticketDetails)

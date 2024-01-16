@@ -11,7 +11,7 @@ function Home() {
     const { user } = useContext(UserContext);
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/tickets")
+        fetch("http://ec2-3-96-129-17.ca-central-1.compute.amazonaws.com/api/tickets")
             .then((response) => response.json())
             .then((data) => {
                 setTickets(data);

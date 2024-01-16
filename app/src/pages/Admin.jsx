@@ -15,14 +15,14 @@ function Admin() {
         }
 
         const getUsers = async () => {
-            const request = await fetch("http://localhost:3000/api/users");
+            const request = await fetch("http://ec2-3-96-129-17.ca-central-1.compute.amazonaws.com/api/users");
             const response = await request.json();
             setUserData(response);
         };
         getUsers();
 
         const getTickets = async () => {
-            const request = await fetch("http://localhost:3000/api/tickets");
+            const request = await fetch("http://ec2-3-96-129-17.ca-central-1.compute.amazonaws.com/api/tickets");
             const response = await request.json();
             setTicketsData(response);
         };
@@ -35,13 +35,13 @@ function Admin() {
             <DataTable
                 data={userData}
                 tableName="Users"
-                deleteEndpoint="http://localhost:3000/api/users"
+                deleteEndpoint="http://ec2-3-96-129-17.ca-central-1.compute.amazonaws.com/api/users"
             />
             <br />
             <DataTable
                 data={ticketsData}
                 tableName="Tickets"
-                deleteEndpoint="http://localhost:3000/api/tickets"
+                deleteEndpoint="http://ec2-3-96-129-17.ca-central-1.compute.amazonaws.com/api/tickets"
             />
         </section>
     );
