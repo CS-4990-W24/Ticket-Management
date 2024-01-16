@@ -14,9 +14,9 @@ const findById = async (id, callback) => {
     connection.execute('SELECT * FROM Tickets WHERE TicketId = ?', [id], callback);
 };
 
-const adminDeleteTicket = async (req, callback) => {
+const adminDeleteTicket = async (id, callback) => {
     const sql = 'DELETE FROM Tickets WHERE TicketId = ?';
-    const values = [req.body.id];
+    const values = [id];
     connection.execute(sql, values, callback);
 };
 

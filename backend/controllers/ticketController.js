@@ -1,4 +1,4 @@
-const {findAll, findById} = require('../models/ticketModel');
+const {findAll, findById, adminDeleteTicket} = require('../models/ticketModel');
 const { checkMissingParams } = require('../utils/checkMissingParams');
 
 const getAllTickets = async (req, res) => {
@@ -25,7 +25,7 @@ const getTicketById = async (req, res) => {
 };
 
 const adminDeleteTicketController = async (req, res) => {
-    deleteTicket(req.body.id, (deleteError, deleteResults) => {
+    adminDeleteTicket(req.body.TicketId, (deleteError, deleteResults) => {
         if (deleteError) {
             console.error("Error in deleting ticket:", deleteError);
             return res
