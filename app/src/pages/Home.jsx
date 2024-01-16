@@ -36,7 +36,7 @@ function Home() {
             <Grid container spacing={2} justifyContent="center">
                 {tickets.map((ticket) => (
                     <Grid item xs={2} sm={2} md={2} lg={2} key={ticket.TicketId}>
-                        <Card style={{ width: "280px", height: "210px" }}>
+                        <Card style={{ width: "240px", height: "210px" }}>
                             <Ticket
                                 ticket={ticket}
                                 onCheckout={() => handleCheckout(ticket)}
