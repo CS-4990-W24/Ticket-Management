@@ -13,7 +13,7 @@ const ticketModel = {
     
 
     findById: (id, callback) => {
-        connection.execute('SELECT * FROM Tickets WHERE id = ?', [id], callback);
+        connection.execute('SELECT * FROM Tickets WHERE TicketId = ?', [id], callback);
     },
 
     insertTicket: (ticketData, callback) => {
