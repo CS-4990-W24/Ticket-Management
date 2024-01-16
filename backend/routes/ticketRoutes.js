@@ -4,6 +4,5 @@ const router = express.Router();
 
 router.get('/tickets', TicketController.getAllTickets);
 router.get('/tickets/:id', TicketController.getTicketById);
-router.post('/tickets', TicketController.insertTicket);
 
 module.exports = router;
