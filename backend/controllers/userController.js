@@ -21,7 +21,7 @@ const createUserController = async (req, res) => {
         const insertResult = await insertUser(req.body);
 
         console.log("User created:", insertResult);
-        res.status(201).send({
+        res.status(200).send({
             message: `User created with ID: ${insertResult.insertId}`,
         });
     } catch (error) {

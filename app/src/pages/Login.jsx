@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "@/styles/login.css";
 import Auth from "@/components/Auth";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "@/components/AuthenticationContext";
 
 function Login() {
     const [auth, setAuth] = useState({ email: "", password: "" });
+    const { setUser } = useContext(UserContext);
+    const navigate = useNavigate();
+
     const getUserInfo = async () => {
         const request = await fetch("http://localhost:3000/api/login", {
             method: "POST",
@@ -12,8 +17,21 @@ function Login() {
             },
             body: JSON.stringify(auth),
         });
+
         const response = await request.json();
-        console.log(response);
+        if (request.status !== 200) {
+            alert(response.message);
+            return;
+        }
+
+        alert("Login successful!");
+        console.log(response)
+        await setUser({
+            email: response[0].Email,
+            authenticated: true,
+            admin: response[0].UserRole === "admin" ? true : false,
+        });
+        navigate("/")
     };
 
     return (

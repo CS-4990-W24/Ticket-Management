@@ -1,12 +1,16 @@
 import Auth from "@/components/Auth";
-import { useState } from "react";
+import { UserContext } from "@/components/AuthenticationContext";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+    const { setUser } = useContext(UserContext);
     const [auth, setAuth] = useState({
         email: "",
         password: "",
         userRole: "user",
     });
+    const navigate = useNavigate();
     const createUser = async () => {
         const request = await fetch("http://localhost:3000/api/users", {
             method: "POST",
@@ -16,7 +20,18 @@ function SignUp() {
             body: JSON.stringify(auth),
         });
         const response = await request.json();
-        console.log(response);
+        if (request.status !== 200) {
+            alert(response.message);
+            return;
+        }
+        alert("User created successfully");
+
+        setUser({
+            email: auth.email,
+            authenticated: true,
+            admin: false,
+        });
+        navigate("/")
     };
 
     return (
