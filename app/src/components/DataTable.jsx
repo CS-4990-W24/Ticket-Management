@@ -18,6 +18,7 @@ import {
     TableBody,
     TablePagination,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -102,11 +103,13 @@ function EnhancedTableToolbar({
     entriesSelected,
     tableName,
     originalData,
-    deleteEndpoint
+    deleteEndpoint,
+    updateEntries,
 }) {
+    const navigate = useNavigate();
     const handleEntryDelete = async () => {
-        const deletedEntries = entriesSelected.map(val => originalData[val]);
-        console.log(deletedEntries)
+        const deletedEntries = entriesSelected.map((val) => originalData[val]);
+        console.log(deletedEntries);
         await fetch(deleteEndpoint, {
             method: "DELETE",
             headers: {
@@ -114,7 +117,9 @@ function EnhancedTableToolbar({
             },
             body: JSON.stringify(deletedEntries[0]),
         });
-        alert("Entries deleted successfully!")
+        updateEntries((prev) => prev.splice(entriesSelected[0], 1));
+        alert("Entries deleted successfully!");
+        navigate(0)
     };
 
     return (
@@ -241,6 +246,7 @@ function DataTable({ tableName, data, deleteEndpoint }) {
                         tableName={tableName}
                         originalData={data}
                         deleteEndpoint={deleteEndpoint}
+                        updateEntries={setSelected}
                     />
                 )}
 
@@ -261,14 +267,14 @@ function DataTable({ tableName, data, deleteEndpoint }) {
                         />
                         <TableBody>
                             {visibleRows.map((row, index) => {
-                                const isItemSelected = isSelected(index);
-                                const labelId = `enhanced-table-checkbox-${index}`;
+                                const isItemSelected = isSelected(index + (page * rowsPerPage));
+                                const labelId = `enhanced-table-checkbox-${index + (page * rowsPerPage)}`;
 
                                 return (
                                     <TableRow
                                         hover
                                         onClick={(event) =>
-                                            handleClick(event, index)
+                                            handleClick(event, index + (page * rowsPerPage))
                                         }
                                         role="checkbox"
                                         aria-checked={isItemSelected}
