@@ -11,15 +11,8 @@ const ticketModel = {
         });
     },
     
-
     findById: (id, callback) => {
         connection.execute('SELECT * FROM Tickets WHERE TicketId = ?', [id], callback);
-    },
-
-    insertTicket: (ticketData, callback) => {
-        const sql = 'INSERT INTO Tickets (Price, Seat, Status, title, location, date) VALUES (?,?,?, ?, ?, ?)';
-        const values = [ticketData.Price, ticketData.Seat, ticketData.Status, ticketData.title, ticketData.location, ticketData.date];
-        connection.execute(sql, values, callback);
     },
 };
 
