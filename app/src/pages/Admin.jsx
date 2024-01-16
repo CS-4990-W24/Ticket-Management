@@ -32,9 +32,17 @@ function Admin() {
     return (
         <section>
             <h1>Database Management</h1>
-            <DataTable data={userData} tableName="Users" />
+            <DataTable
+                data={userData}
+                tableName="Users"
+                deleteEndpoint="http://localhost:3000/api/users"
+            />
             <br />
-            <DataTable data={ticketsData} tableName="Tickets" />
+            <DataTable
+                data={ticketsData}
+                tableName="Tickets"
+                deleteEndpoint=""
+            />
         </section>
     );
 }

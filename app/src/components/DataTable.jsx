@@ -102,11 +102,19 @@ function EnhancedTableToolbar({
     entriesSelected,
     tableName,
     originalData,
+    deleteEndpoint
 }) {
-    const handleEntryDelete = () => {
-        console.log("Deleted these entries");
+    const handleEntryDelete = async () => {
         const deletedEntries = entriesSelected.map(val => originalData[val]);
         console.log(deletedEntries)
+        await fetch(deleteEndpoint, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(deletedEntries[0]),
+        });
+        alert("Entries deleted successfully!")
     };
 
     return (
@@ -154,7 +162,7 @@ function EnhancedTableToolbar({
     );
 }
 
-function DataTable({ tableName, data }) {
+function DataTable({ tableName, data, deleteEndpoint }) {
     if (data.length == 0) {
         return <div></div>;
     }
@@ -162,7 +170,6 @@ function DataTable({ tableName, data }) {
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState(firstKey ? firstKey : "");
     const [selected, setSelected] = useState([]);
-    const [itemSelected, setItemsSelected] = useState([{}]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -233,6 +240,7 @@ function DataTable({ tableName, data }) {
                         entriesSelected={selected}
                         tableName={tableName}
                         originalData={data}
+                        deleteEndpoint={deleteEndpoint}
                     />
                 )}
 
