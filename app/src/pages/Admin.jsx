@@ -10,9 +10,9 @@ function Admin() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user.admin) {
-            navigate("/");
-        }
+        // if (!user.admin) {
+        //     navigate("/");
+        // }
 
         const getUsers = async () => {
             const request = await fetch("http://localhost:3000/api/users");
@@ -41,7 +41,7 @@ function Admin() {
             <DataTable
                 data={ticketsData}
                 tableName="Tickets"
-                deleteEndpoint=""
+                deleteEndpoint="http://localhost:3000/api/tickets"
             />
         </section>
     );
