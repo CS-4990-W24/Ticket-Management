@@ -41,7 +41,7 @@ function Admin() {
             <DataTable
                 data={ticketsData}
                 tableName="Tickets"
-                deleteEndpoint=""
+                deleteEndpoint="http://localhost:3000/api/tickets"
             />
         </section>
     );

@@ -1,19 +1,23 @@
 const connection = require('../database');
 
-const ticketModel = {
-    findAll: callback => {
-        connection.execute('SELECT * FROM Tickets', (err, results, fields) => {
-            if (err) {
-                callback(err, null);
-            } else {
-                callback(null, results);
-            }
-        });
-    },
+const findAll = async (callback) => {
+    connection.execute('SELECT * FROM Tickets', (err, results, fields) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
     
-    findById: (id, callback) => {
-        connection.execute('SELECT * FROM Tickets WHERE TicketId = ?', [id], callback);
-    },
+const findById = async (id, callback) => {
+    connection.execute('SELECT * FROM Tickets WHERE TicketId = ?', [id], callback);
 };
 
-module.exports = ticketModel;
+const adminDeleteTicket = async (id, callback) => {
+    const sql = 'DELETE FROM Tickets WHERE TicketId = ?';
+    const values = [id];
+    connection.execute(sql, values, callback);
+};
+
+module.exports = {findAll, findById, adminDeleteTicket};
