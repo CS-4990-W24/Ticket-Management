@@ -1,21 +1,36 @@
-import {Box, Button, Container, CssBaseline, FormControl, Grid, Input, InputAdornment, InputLabel, TextField, Typography } from '@mui/material';
+import {Box, Button, Container, FormControl, Grid, Input, InputAdornment, InputLabel, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 export default function UploadTicket() {
-    const [concertName, setConcertName] = useState('');
-    const [concertLocation, setConcertLocation] = useState('');
-    const [concertDate, setConcertDate] = useState('');
-    const [ticketPosition, setTicketPosition] = useState('');
-    const [ticketAmount, setTicketAmount] = useState('');
-    const [ticketPrice, setTicketPrice] = useState('');
+    const [Price, setPrice] = useState('');
+    const [Seat, setSeat] = useState('');
+    const[Status, setStatus] = useState(1);
+    const [Title, setTitle] = useState('');
+    const [Location, setLocation] = useState('');
+    const [Date, setDate] = useState(dayjs('2023-01-01'));
+    const navigate = useNavigate();
+    const[amount, setAmount] = useState('');
 
-    const handleSubmitClick = () => {
-        alert(`name: ${concertName}\nlocation: ${concertLocation}\ndate: ${concertDate}\nposition: ${ticketPosition}\namount: ${ticketAmount}\nprice: ${ticketPrice}`)
+    const handleSubmitClick = async() => {
+        const ticketDetails = {Price, Seat, Status, Title, Location, Date};
+        console.log(ticketDetails.Date);
+        await fetch('http://localhost:3000/api/tickets', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(ticketDetails)
+        })
+        alert('Ticket successfully uploaded. Thank you!');
+        navigate('/');
     }
 
     return (
         <>
-            <CssBaseline />
             <Container maxWidth="md">
                 <Typography variant='h4' align="left" paddingTop="15px" fontFamily='Calibri' gutterBottom>
                     Upload Ticket Details
@@ -33,8 +48,8 @@ export default function UploadTicket() {
                                 label="Concert Name"
                                 variant="outlined"
                                 fullWidth
-                                value={concertName}
-                                onChange={e => setConcertName(e.target.value)}
+                                value={Title}
+                                onChange={e => setTitle(e.target.value)}
                             />
                         </Grid>
 
@@ -46,52 +61,38 @@ export default function UploadTicket() {
                                 label="Concert Location"
                                 variant="outlined"
                                 fullWidth
-                                value={concertLocation}
-                                onChange={e => setConcertLocation(e.target.value)}
-                            />
-                        </Grid>
-
-                        {/* Concert date */}
-                        <Grid item xs={6}>
-                            <TextField
-                                required
-                                id="concert-date"
-                                label="Concert Date"
-                                variant="outlined"
-                                fullWidth
-                                value={concertDate}
-                                onChange={e => setConcertDate(e.target.value)}
+                                value={Location}
+                                onChange={e => setLocation(e.target.value)}
                             />
                         </Grid>
 
                         {/* Seating position */}
-                        <Grid item xs={6}>
+                        <Grid item xs={12}>
                             <TextField
                                 required
                                 id="ticket-position"
                                 label="Seating Position"
                                 variant="outlined"
                                 fullWidth
-                                value={ticketPosition}
-                                onChange={e => setTicketPosition(e.target.value)}
+                                value={Seat}
+                                onChange={e => setSeat(e.target.value)}
                             />
                         </Grid>
 
-                        {/* Number of tickets */}
-                        <Grid item xs={6}>
-                            <TextField
-                                required
-                                id="ticket-amount"
-                                label="Number of Tickets"
-                                variant="outlined"
-                                fullWidth
-                                value={ticketAmount}
-                                onChange={e => setTicketAmount(e.target.value)}
-                            />
+                        {/* Concert date */}
+                        <Grid item xs={4}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer components={['DatePicker']}>
+                                    <DatePicker
+                                    defaultValue={dayjs('2023-01-01')}
+                                    label="Concert Date"
+                                    onChange={e => setDate(e)}/>
+                                </DemoContainer>
+                            </LocalizationProvider>
                         </Grid>
 
                         {/* Amount per ticket */}
-                        <Grid item xs={6}>
+                        <Grid item xs={8}>
                                 <FormControl
                                 fullWidth
                                 required
@@ -102,8 +103,8 @@ export default function UploadTicket() {
                                 <Input
                                 id="outlined-adornment-amount"
                                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                value={ticketPrice}
-                                onChange={e => setTicketPrice(e.target.value)}
+                                value={Price}
+                                onChange={e => setPrice(e.target.value)}
                                 />
                             </FormControl>
                         </Grid>

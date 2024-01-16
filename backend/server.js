@@ -1,15 +1,20 @@
 const express = require("express");
-const ticketRoutes = require('./routes/ticketRoutes');
+const ticketRoutes = require("./routes/ticketRoutes");
+const userRoutes = require("./routes/userRoutes");
+const checkoutRoutes = require("./routes/checkoutRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 const app = express();
 const port = 3000;
-const cors = require('cors');
+const cors = require("cors");
 
 app.use(cors());
 
-
 app.use(express.json());
 
-app.use('/api', ticketRoutes);
+app.use("/api", ticketRoutes);
+app.use("/api", checkoutRoutes);
+app.use("/api", userRoutes);
+app.use("/api", uploadRoutes);
 
 app.get("/", (req, res) => {
     res.send("Hello World!");

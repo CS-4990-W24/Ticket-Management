@@ -2,13 +2,16 @@ body {
     margin: 0;
     padding: 0;
 }
+a {
+    text-decoration: none;
+}
 
-a.active {
+.navbarLink .active {
     background-color: #26c3fc;
     color: white;
 }
 
-a {
+.navbarLink {
     text-decoration: none;
     color: white;
     padding: 0.5em;

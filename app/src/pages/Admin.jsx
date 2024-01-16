@@ -1,52 +1,48 @@
+import { UserContext } from "@/components/AuthenticationContext";
 import DataTable from "@/components/DataTable";
-function createUserData(id, Email) {
-    return {
-        id,
-        Email,
-    };
-}
-
-const usersData = [
-    createUserData(1, "cupcake@example.com"),
-    createUserData(2, "donut@example.com"),
-    createUserData(3, "eclair@example.com"),
-    createUserData(4, "frozenyoghurt@example.com"),
-    createUserData(5, "gingerbread@example.com"),
-    createUserData(6, "honeycomb@example.com"),
-    createUserData(7, "icecreamsandwich@example.com"),
-    createUserData(8, "jellybean@example.com"),
-    createUserData(9, "kitkat@example.com"),
-    createUserData(10, "lollipop@example.com"),
-    createUserData(11, "marshmallow@example.com"),
-    createUserData(12, "nougat@example.com"),
-    createUserData(13, "oreo@example.com"),
-];
-
-function createTicketData(TicketId, Price, Seat, Status) {
-    return {
-        TicketId,
-        Price,
-        Seat,
-        Status,
-    };
-}
-const statuses = ['Open', 'Closed', 'In Progress', 'Resolved'];
-const seats = ['A1', 'B2', 'C3', 'D4', 'E5', 'F6', 'G7', 'H8', 'I9', 'J10'];
-
-const ticketsData = Array.from({length: 15}, (_, i) => createTicketData(
-    i + 1,
-    Math.floor(Math.random() * 100) + 50, // Price between 50 and 150
-    seats[Math.floor(Math.random() * seats.length)], // Random seat from the seats array
-    statuses[Math.floor(Math.random() * statuses.length)] // Random status from the statuses array
-));
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Admin() {
+    const [userData, setUserData] = useState([{}]);
+    const [ticketsData, setTicketsData] = useState([{}]);
+    const { user } = useContext(UserContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user.admin) {
+            navigate("/");
+        }
+
+        const getUsers = async () => {
+            const request = await fetch("http://localhost:3000/api/users");
+            const response = await request.json();
+            setUserData(response);
+        };
+        getUsers();
+
+        const getTickets = async () => {
+            const request = await fetch("http://localhost:3000/api/tickets");
+            const response = await request.json();
+            setTicketsData(response);
+        };
+        getTickets();
+    }, []);
+
     return (
         <section>
             <h1>Database Management</h1>
-            <DataTable data={usersData} tableName="Users"/>
+            <DataTable
+                data={userData}
+                tableName="Users"
+                deleteEndpoint="http://localhost:3000/api/users"
+            />
             <br />
-            <DataTable data={ticketsData} tableName="Tickets"/>
+            <DataTable
+                data={ticketsData}
+                tableName="Tickets"
+                deleteEndpoint=""
+            />
         </section>
     );
 }
