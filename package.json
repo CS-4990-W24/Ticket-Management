@@ -5,8 +5,5 @@
         "init:backend": "cd backend && npm install",
         "backend": "cd backend && npm run dev",
         "build": "cd app && npm run build"
-    },
-    "dependencies": {
-
     }
 }
