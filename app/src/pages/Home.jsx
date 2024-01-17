@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Ticket from "@/components/Ticket";
 import { useNavigate } from "react-router-dom";
-import { Grid, CircularProgress, Typography, Card } from "@material-ui/core";
+import { Grid, CircularProgress, Typography, Card } from "@mui/material";
 import { UserContext } from "@/components/AuthenticationContext";
 
 function Home() {
